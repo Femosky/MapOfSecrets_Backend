@@ -1,9 +1,11 @@
 import express from 'express';
 import noteRoutes from './routes/noteRoutes';
+import locationRoutes from './routes/locationRoutes';
 
 const app = express();
 app.use(express.json());
-app.use('/note', noteRoutes);
+app.use('/notes', noteRoutes);
+app.use('/locations', locationRoutes);
 
 app.get('/', (request, response) => {
     response.send("You've accessed the root get api for the MapOfSecrets weebsite.");

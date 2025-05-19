@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// interface Coordinates {
+//     latitude: number;
+//     longitude: number;
+// }
+
+// interface GeneralCoordinates {
+//     cityTown: Coordinates;
+//     stateProvince: Coordinates;
+//     country: Coordinates;
+// }
+
+// interface Location {
+//     id: number;
+//     coordinates: Coordinates;
+//     generalCoordinates: GeneralCoordinates;
+//     cityTown: string;
+//     statePovince: string;
+//     country: string;
+// }
+
+// interface Note {
+//     id: number;
+//     timestamp: Date;
+//     location: Location;
+//     text: string;
+// }
+
+model Note {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  text String
+
+  cityTown      String
+  stateProvince String
+  country       String
+
+  latitude  Float
+  longitude Float
+
+  cityTownId      Int
+  generalCityTown CityTown @relation(fields: [cityTownId], references: [id])
+
+  stateProvinceId      Int
+  generalStateProvince StateProvince @relation(fields: [stateProvinceId], references: [id])
+
+  countryId      Int
+  generalCountry Country @relation(fields: [countryId], references: [id])
+}
+
+model CityTown {
+  id Int @id @default(autoincrement())
+
+  name            String
+  stateProvinceId Int
+  countryId       Int
+
+  latitude  Float
+  longitude Float
+
+  stateProvince StateProvince @relation(fields: [stateProvinceId], references: [id])
+  country       Country       @relation(fields: [countryId], references: [id])
+
+  location Note[]
+
+  @@unique([name, stateProvinceId, countryId])
+}
+
+model StateProvince {
+  id Int @id @default(autoincrement())
+
+  name      String
+  countryId Int
+
+  latitude  Float
+  longitude Float
+
+  country Country @relation(fields: [countryId], references: [id])
+
+  cityTowns CityTown[]
+  location  Note[]
+
+  @@unique([name, countryId])
+}
+
+model Country {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+
+  latitude  Float
+  longitude Float
+
+  cityTowns      CityTown[]
+  stateProvinces StateProvince[]
+  location       Note[]
+}
