@@ -70,7 +70,11 @@ router.post('/city', async (request, response) => {
             generalLocation.country
         );
 
-        if (!generalCoordinates) throw Error('Location not found in database.');
+        if (!generalCoordinates) {
+            // throw Error('Location not found in database.');
+            response.json({ error: 'Location not found in database.' });
+            return;
+        }
 
         const results = await prisma.cityTown.findUnique({
             where: { id: generalCoordinates.cityTownId },
@@ -90,7 +94,11 @@ router.post('/city', async (request, response) => {
             },
         });
 
-        if (!results) throw Error("Note doesn't exist");
+        if (!results) {
+            // throw Error("Note doesn't exist");
+            response.json({ error: "Note doesn't exist" });
+            return;
+        }
 
         const notes: Note[] = await Promise.all(
             results.notes.map(async (note) => {
@@ -106,7 +114,7 @@ router.post('/city', async (request, response) => {
                 );
 
                 const location: Location = {
-                    id: note.id,
+                    id: generalCoordinates.cityTownId,
                     coordinates,
                     generalCoordinates: genCoordinates || {
                         cityTown: { latitude: 0, longitude: 0 },
@@ -129,7 +137,7 @@ router.post('/city', async (request, response) => {
             })
         );
 
-        response.json(notes);
+        response.json({ notes });
     } catch (e) {
         response.status(400).json({ error: `Failed to create note: ${e}` });
     }
