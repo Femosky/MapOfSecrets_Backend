@@ -1142,11 +1142,11 @@ export namespace Prisma {
    */
 
   export type CityTownCountOutputType = {
-    location: number
+    notes: number
   }
 
   export type CityTownCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    location?: boolean | CityTownCountOutputTypeCountLocationArgs
+    notes?: boolean | CityTownCountOutputTypeCountNotesArgs
   }
 
   // Custom InputTypes
@@ -1163,7 +1163,7 @@ export namespace Prisma {
   /**
    * CityTownCountOutputType without action
    */
-  export type CityTownCountOutputTypeCountLocationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CityTownCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NoteWhereInput
   }
 
@@ -1174,12 +1174,12 @@ export namespace Prisma {
 
   export type StateProvinceCountOutputType = {
     cityTowns: number
-    location: number
+    notes: number
   }
 
   export type StateProvinceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cityTowns?: boolean | StateProvinceCountOutputTypeCountCityTownsArgs
-    location?: boolean | StateProvinceCountOutputTypeCountLocationArgs
+    notes?: boolean | StateProvinceCountOutputTypeCountNotesArgs
   }
 
   // Custom InputTypes
@@ -1203,7 +1203,7 @@ export namespace Prisma {
   /**
    * StateProvinceCountOutputType without action
    */
-  export type StateProvinceCountOutputTypeCountLocationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StateProvinceCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NoteWhereInput
   }
 
@@ -1215,13 +1215,13 @@ export namespace Prisma {
   export type CountryCountOutputType = {
     cityTowns: number
     stateProvinces: number
-    location: number
+    notes: number
   }
 
   export type CountryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cityTowns?: boolean | CountryCountOutputTypeCountCityTownsArgs
     stateProvinces?: boolean | CountryCountOutputTypeCountStateProvincesArgs
-    location?: boolean | CountryCountOutputTypeCountLocationArgs
+    notes?: boolean | CountryCountOutputTypeCountNotesArgs
   }
 
   // Custom InputTypes
@@ -1252,7 +1252,7 @@ export namespace Prisma {
   /**
    * CountryCountOutputType without action
    */
-  export type CountryCountOutputTypeCountLocationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CountryCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NoteWhereInput
   }
 
@@ -2702,7 +2702,7 @@ export namespace Prisma {
     longitude?: boolean
     stateProvince?: boolean | StateProvinceDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    location?: boolean | CityTown$locationArgs<ExtArgs>
+    notes?: boolean | CityTown$notesArgs<ExtArgs>
     _count?: boolean | CityTownCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cityTown"]>
 
@@ -2741,7 +2741,7 @@ export namespace Prisma {
   export type CityTownInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stateProvince?: boolean | StateProvinceDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    location?: boolean | CityTown$locationArgs<ExtArgs>
+    notes?: boolean | CityTown$notesArgs<ExtArgs>
     _count?: boolean | CityTownCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CityTownIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2758,7 +2758,7 @@ export namespace Prisma {
     objects: {
       stateProvince: Prisma.$StateProvincePayload<ExtArgs>
       country: Prisma.$CountryPayload<ExtArgs>
-      location: Prisma.$NotePayload<ExtArgs>[]
+      notes: Prisma.$NotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3163,7 +3163,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     stateProvince<T extends StateProvinceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StateProvinceDefaultArgs<ExtArgs>>): Prisma__StateProvinceClient<$Result.GetResult<Prisma.$StateProvincePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     country<T extends CountryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CountryDefaultArgs<ExtArgs>>): Prisma__CountryClient<$Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    location<T extends CityTown$locationArgs<ExtArgs> = {}>(args?: Subset<T, CityTown$locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notes<T extends CityTown$notesArgs<ExtArgs> = {}>(args?: Subset<T, CityTown$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3593,9 +3593,9 @@ export namespace Prisma {
   }
 
   /**
-   * CityTown.location
+   * CityTown.notes
    */
-  export type CityTown$locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CityTown$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Note
      */
@@ -3847,7 +3847,7 @@ export namespace Prisma {
     longitude?: boolean
     country?: boolean | CountryDefaultArgs<ExtArgs>
     cityTowns?: boolean | StateProvince$cityTownsArgs<ExtArgs>
-    location?: boolean | StateProvince$locationArgs<ExtArgs>
+    notes?: boolean | StateProvince$notesArgs<ExtArgs>
     _count?: boolean | StateProvinceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stateProvince"]>
 
@@ -3881,7 +3881,7 @@ export namespace Prisma {
   export type StateProvinceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     country?: boolean | CountryDefaultArgs<ExtArgs>
     cityTowns?: boolean | StateProvince$cityTownsArgs<ExtArgs>
-    location?: boolean | StateProvince$locationArgs<ExtArgs>
+    notes?: boolean | StateProvince$notesArgs<ExtArgs>
     _count?: boolean | StateProvinceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StateProvinceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3896,7 +3896,7 @@ export namespace Prisma {
     objects: {
       country: Prisma.$CountryPayload<ExtArgs>
       cityTowns: Prisma.$CityTownPayload<ExtArgs>[]
-      location: Prisma.$NotePayload<ExtArgs>[]
+      notes: Prisma.$NotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4300,7 +4300,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     country<T extends CountryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CountryDefaultArgs<ExtArgs>>): Prisma__CountryClient<$Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     cityTowns<T extends StateProvince$cityTownsArgs<ExtArgs> = {}>(args?: Subset<T, StateProvince$cityTownsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CityTownPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    location<T extends StateProvince$locationArgs<ExtArgs> = {}>(args?: Subset<T, StateProvince$locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notes<T extends StateProvince$notesArgs<ExtArgs> = {}>(args?: Subset<T, StateProvince$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4753,9 +4753,9 @@ export namespace Prisma {
   }
 
   /**
-   * StateProvince.location
+   * StateProvince.notes
    */
-  export type StateProvince$locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StateProvince$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Note
      */
@@ -4995,7 +4995,7 @@ export namespace Prisma {
     longitude?: boolean
     cityTowns?: boolean | Country$cityTownsArgs<ExtArgs>
     stateProvinces?: boolean | Country$stateProvincesArgs<ExtArgs>
-    location?: boolean | Country$locationArgs<ExtArgs>
+    notes?: boolean | Country$notesArgs<ExtArgs>
     _count?: boolean | CountryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["country"]>
 
@@ -5024,7 +5024,7 @@ export namespace Prisma {
   export type CountryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cityTowns?: boolean | Country$cityTownsArgs<ExtArgs>
     stateProvinces?: boolean | Country$stateProvincesArgs<ExtArgs>
-    location?: boolean | Country$locationArgs<ExtArgs>
+    notes?: boolean | Country$notesArgs<ExtArgs>
     _count?: boolean | CountryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CountryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5035,7 +5035,7 @@ export namespace Prisma {
     objects: {
       cityTowns: Prisma.$CityTownPayload<ExtArgs>[]
       stateProvinces: Prisma.$StateProvincePayload<ExtArgs>[]
-      location: Prisma.$NotePayload<ExtArgs>[]
+      notes: Prisma.$NotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5438,7 +5438,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     cityTowns<T extends Country$cityTownsArgs<ExtArgs> = {}>(args?: Subset<T, Country$cityTownsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CityTownPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stateProvinces<T extends Country$stateProvincesArgs<ExtArgs> = {}>(args?: Subset<T, Country$stateProvincesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StateProvincePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    location<T extends Country$locationArgs<ExtArgs> = {}>(args?: Subset<T, Country$locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notes<T extends Country$notesArgs<ExtArgs> = {}>(args?: Subset<T, Country$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5906,9 +5906,9 @@ export namespace Prisma {
   }
 
   /**
-   * Country.location
+   * Country.notes
    */
-  export type Country$locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Country$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Note
      */
@@ -6164,7 +6164,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"CityTown"> | number
     stateProvince?: XOR<StateProvinceScalarRelationFilter, StateProvinceWhereInput>
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
-    location?: NoteListRelationFilter
+    notes?: NoteListRelationFilter
   }
 
   export type CityTownOrderByWithRelationInput = {
@@ -6176,7 +6176,7 @@ export namespace Prisma {
     longitude?: SortOrder
     stateProvince?: StateProvinceOrderByWithRelationInput
     country?: CountryOrderByWithRelationInput
-    location?: NoteOrderByRelationAggregateInput
+    notes?: NoteOrderByRelationAggregateInput
   }
 
   export type CityTownWhereUniqueInput = Prisma.AtLeast<{
@@ -6192,7 +6192,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"CityTown"> | number
     stateProvince?: XOR<StateProvinceScalarRelationFilter, StateProvinceWhereInput>
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
-    location?: NoteListRelationFilter
+    notes?: NoteListRelationFilter
   }, "id" | "name_stateProvinceId_countryId">
 
   export type CityTownOrderByWithAggregationInput = {
@@ -6232,7 +6232,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"StateProvince"> | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     cityTowns?: CityTownListRelationFilter
-    location?: NoteListRelationFilter
+    notes?: NoteListRelationFilter
   }
 
   export type StateProvinceOrderByWithRelationInput = {
@@ -6243,7 +6243,7 @@ export namespace Prisma {
     longitude?: SortOrder
     country?: CountryOrderByWithRelationInput
     cityTowns?: CityTownOrderByRelationAggregateInput
-    location?: NoteOrderByRelationAggregateInput
+    notes?: NoteOrderByRelationAggregateInput
   }
 
   export type StateProvinceWhereUniqueInput = Prisma.AtLeast<{
@@ -6258,7 +6258,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"StateProvince"> | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     cityTowns?: CityTownListRelationFilter
-    location?: NoteListRelationFilter
+    notes?: NoteListRelationFilter
   }, "id" | "name_countryId">
 
   export type StateProvinceOrderByWithAggregationInput = {
@@ -6295,7 +6295,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"Country"> | number
     cityTowns?: CityTownListRelationFilter
     stateProvinces?: StateProvinceListRelationFilter
-    location?: NoteListRelationFilter
+    notes?: NoteListRelationFilter
   }
 
   export type CountryOrderByWithRelationInput = {
@@ -6305,7 +6305,7 @@ export namespace Prisma {
     longitude?: SortOrder
     cityTowns?: CityTownOrderByRelationAggregateInput
     stateProvinces?: StateProvinceOrderByRelationAggregateInput
-    location?: NoteOrderByRelationAggregateInput
+    notes?: NoteOrderByRelationAggregateInput
   }
 
   export type CountryWhereUniqueInput = Prisma.AtLeast<{
@@ -6318,7 +6318,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"Country"> | number
     cityTowns?: CityTownListRelationFilter
     stateProvinces?: StateProvinceListRelationFilter
-    location?: NoteListRelationFilter
+    notes?: NoteListRelationFilter
   }, "id" | "name">
 
   export type CountryOrderByWithAggregationInput = {
@@ -6352,9 +6352,9 @@ export namespace Prisma {
     country: string
     latitude: number
     longitude: number
-    generalCityTown: CityTownCreateNestedOneWithoutLocationInput
-    generalStateProvince: StateProvinceCreateNestedOneWithoutLocationInput
-    generalCountry: CountryCreateNestedOneWithoutLocationInput
+    generalCityTown: CityTownCreateNestedOneWithoutNotesInput
+    generalStateProvince: StateProvinceCreateNestedOneWithoutNotesInput
+    generalCountry: CountryCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateInput = {
@@ -6381,9 +6381,9 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    generalCityTown?: CityTownUpdateOneRequiredWithoutLocationNestedInput
-    generalStateProvince?: StateProvinceUpdateOneRequiredWithoutLocationNestedInput
-    generalCountry?: CountryUpdateOneRequiredWithoutLocationNestedInput
+    generalCityTown?: CityTownUpdateOneRequiredWithoutNotesNestedInput
+    generalStateProvince?: StateProvinceUpdateOneRequiredWithoutNotesNestedInput
+    generalCountry?: CountryUpdateOneRequiredWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateInput = {
@@ -6448,7 +6448,7 @@ export namespace Prisma {
     longitude: number
     stateProvince: StateProvinceCreateNestedOneWithoutCityTownsInput
     country: CountryCreateNestedOneWithoutCityTownsInput
-    location?: NoteCreateNestedManyWithoutGeneralCityTownInput
+    notes?: NoteCreateNestedManyWithoutGeneralCityTownInput
   }
 
   export type CityTownUncheckedCreateInput = {
@@ -6458,7 +6458,7 @@ export namespace Prisma {
     countryId: number
     latitude: number
     longitude: number
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralCityTownInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralCityTownInput
   }
 
   export type CityTownUpdateInput = {
@@ -6467,7 +6467,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     stateProvince?: StateProvinceUpdateOneRequiredWithoutCityTownsNestedInput
     country?: CountryUpdateOneRequiredWithoutCityTownsNestedInput
-    location?: NoteUpdateManyWithoutGeneralCityTownNestedInput
+    notes?: NoteUpdateManyWithoutGeneralCityTownNestedInput
   }
 
   export type CityTownUncheckedUpdateInput = {
@@ -6477,7 +6477,7 @@ export namespace Prisma {
     countryId?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    location?: NoteUncheckedUpdateManyWithoutGeneralCityTownNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralCityTownNestedInput
   }
 
   export type CityTownCreateManyInput = {
@@ -6510,7 +6510,7 @@ export namespace Prisma {
     longitude: number
     country: CountryCreateNestedOneWithoutStateProvincesInput
     cityTowns?: CityTownCreateNestedManyWithoutStateProvinceInput
-    location?: NoteCreateNestedManyWithoutGeneralStateProvinceInput
+    notes?: NoteCreateNestedManyWithoutGeneralStateProvinceInput
   }
 
   export type StateProvinceUncheckedCreateInput = {
@@ -6520,7 +6520,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     cityTowns?: CityTownUncheckedCreateNestedManyWithoutStateProvinceInput
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralStateProvinceInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralStateProvinceInput
   }
 
   export type StateProvinceUpdateInput = {
@@ -6529,7 +6529,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     country?: CountryUpdateOneRequiredWithoutStateProvincesNestedInput
     cityTowns?: CityTownUpdateManyWithoutStateProvinceNestedInput
-    location?: NoteUpdateManyWithoutGeneralStateProvinceNestedInput
+    notes?: NoteUpdateManyWithoutGeneralStateProvinceNestedInput
   }
 
   export type StateProvinceUncheckedUpdateInput = {
@@ -6539,7 +6539,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     cityTowns?: CityTownUncheckedUpdateManyWithoutStateProvinceNestedInput
-    location?: NoteUncheckedUpdateManyWithoutGeneralStateProvinceNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralStateProvinceNestedInput
   }
 
   export type StateProvinceCreateManyInput = {
@@ -6570,7 +6570,7 @@ export namespace Prisma {
     longitude: number
     cityTowns?: CityTownCreateNestedManyWithoutCountryInput
     stateProvinces?: StateProvinceCreateNestedManyWithoutCountryInput
-    location?: NoteCreateNestedManyWithoutGeneralCountryInput
+    notes?: NoteCreateNestedManyWithoutGeneralCountryInput
   }
 
   export type CountryUncheckedCreateInput = {
@@ -6580,7 +6580,7 @@ export namespace Prisma {
     longitude: number
     cityTowns?: CityTownUncheckedCreateNestedManyWithoutCountryInput
     stateProvinces?: StateProvinceUncheckedCreateNestedManyWithoutCountryInput
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralCountryInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralCountryInput
   }
 
   export type CountryUpdateInput = {
@@ -6589,7 +6589,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     cityTowns?: CityTownUpdateManyWithoutCountryNestedInput
     stateProvinces?: StateProvinceUpdateManyWithoutCountryNestedInput
-    location?: NoteUpdateManyWithoutGeneralCountryNestedInput
+    notes?: NoteUpdateManyWithoutGeneralCountryNestedInput
   }
 
   export type CountryUncheckedUpdateInput = {
@@ -6599,7 +6599,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     cityTowns?: CityTownUncheckedUpdateManyWithoutCountryNestedInput
     stateProvinces?: StateProvinceUncheckedUpdateManyWithoutCountryNestedInput
-    location?: NoteUncheckedUpdateManyWithoutGeneralCountryNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralCountryNestedInput
   }
 
   export type CountryCreateManyInput = {
@@ -6965,21 +6965,21 @@ export namespace Prisma {
     longitude?: SortOrder
   }
 
-  export type CityTownCreateNestedOneWithoutLocationInput = {
-    create?: XOR<CityTownCreateWithoutLocationInput, CityTownUncheckedCreateWithoutLocationInput>
-    connectOrCreate?: CityTownCreateOrConnectWithoutLocationInput
+  export type CityTownCreateNestedOneWithoutNotesInput = {
+    create?: XOR<CityTownCreateWithoutNotesInput, CityTownUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: CityTownCreateOrConnectWithoutNotesInput
     connect?: CityTownWhereUniqueInput
   }
 
-  export type StateProvinceCreateNestedOneWithoutLocationInput = {
-    create?: XOR<StateProvinceCreateWithoutLocationInput, StateProvinceUncheckedCreateWithoutLocationInput>
-    connectOrCreate?: StateProvinceCreateOrConnectWithoutLocationInput
+  export type StateProvinceCreateNestedOneWithoutNotesInput = {
+    create?: XOR<StateProvinceCreateWithoutNotesInput, StateProvinceUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: StateProvinceCreateOrConnectWithoutNotesInput
     connect?: StateProvinceWhereUniqueInput
   }
 
-  export type CountryCreateNestedOneWithoutLocationInput = {
-    create?: XOR<CountryCreateWithoutLocationInput, CountryUncheckedCreateWithoutLocationInput>
-    connectOrCreate?: CountryCreateOrConnectWithoutLocationInput
+  export type CountryCreateNestedOneWithoutNotesInput = {
+    create?: XOR<CountryCreateWithoutNotesInput, CountryUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: CountryCreateOrConnectWithoutNotesInput
     connect?: CountryWhereUniqueInput
   }
 
@@ -6999,28 +6999,28 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type CityTownUpdateOneRequiredWithoutLocationNestedInput = {
-    create?: XOR<CityTownCreateWithoutLocationInput, CityTownUncheckedCreateWithoutLocationInput>
-    connectOrCreate?: CityTownCreateOrConnectWithoutLocationInput
-    upsert?: CityTownUpsertWithoutLocationInput
+  export type CityTownUpdateOneRequiredWithoutNotesNestedInput = {
+    create?: XOR<CityTownCreateWithoutNotesInput, CityTownUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: CityTownCreateOrConnectWithoutNotesInput
+    upsert?: CityTownUpsertWithoutNotesInput
     connect?: CityTownWhereUniqueInput
-    update?: XOR<XOR<CityTownUpdateToOneWithWhereWithoutLocationInput, CityTownUpdateWithoutLocationInput>, CityTownUncheckedUpdateWithoutLocationInput>
+    update?: XOR<XOR<CityTownUpdateToOneWithWhereWithoutNotesInput, CityTownUpdateWithoutNotesInput>, CityTownUncheckedUpdateWithoutNotesInput>
   }
 
-  export type StateProvinceUpdateOneRequiredWithoutLocationNestedInput = {
-    create?: XOR<StateProvinceCreateWithoutLocationInput, StateProvinceUncheckedCreateWithoutLocationInput>
-    connectOrCreate?: StateProvinceCreateOrConnectWithoutLocationInput
-    upsert?: StateProvinceUpsertWithoutLocationInput
+  export type StateProvinceUpdateOneRequiredWithoutNotesNestedInput = {
+    create?: XOR<StateProvinceCreateWithoutNotesInput, StateProvinceUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: StateProvinceCreateOrConnectWithoutNotesInput
+    upsert?: StateProvinceUpsertWithoutNotesInput
     connect?: StateProvinceWhereUniqueInput
-    update?: XOR<XOR<StateProvinceUpdateToOneWithWhereWithoutLocationInput, StateProvinceUpdateWithoutLocationInput>, StateProvinceUncheckedUpdateWithoutLocationInput>
+    update?: XOR<XOR<StateProvinceUpdateToOneWithWhereWithoutNotesInput, StateProvinceUpdateWithoutNotesInput>, StateProvinceUncheckedUpdateWithoutNotesInput>
   }
 
-  export type CountryUpdateOneRequiredWithoutLocationNestedInput = {
-    create?: XOR<CountryCreateWithoutLocationInput, CountryUncheckedCreateWithoutLocationInput>
-    connectOrCreate?: CountryCreateOrConnectWithoutLocationInput
-    upsert?: CountryUpsertWithoutLocationInput
+  export type CountryUpdateOneRequiredWithoutNotesNestedInput = {
+    create?: XOR<CountryCreateWithoutNotesInput, CountryUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: CountryCreateOrConnectWithoutNotesInput
+    upsert?: CountryUpsertWithoutNotesInput
     connect?: CountryWhereUniqueInput
-    update?: XOR<XOR<CountryUpdateToOneWithWhereWithoutLocationInput, CountryUpdateWithoutLocationInput>, CountryUncheckedUpdateWithoutLocationInput>
+    update?: XOR<XOR<CountryUpdateToOneWithWhereWithoutNotesInput, CountryUpdateWithoutNotesInput>, CountryUncheckedUpdateWithoutNotesInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -7435,7 +7435,7 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type CityTownCreateWithoutLocationInput = {
+  export type CityTownCreateWithoutNotesInput = {
     name: string
     latitude: number
     longitude: number
@@ -7443,7 +7443,7 @@ export namespace Prisma {
     country: CountryCreateNestedOneWithoutCityTownsInput
   }
 
-  export type CityTownUncheckedCreateWithoutLocationInput = {
+  export type CityTownUncheckedCreateWithoutNotesInput = {
     id?: number
     name: string
     stateProvinceId: number
@@ -7452,12 +7452,12 @@ export namespace Prisma {
     longitude: number
   }
 
-  export type CityTownCreateOrConnectWithoutLocationInput = {
+  export type CityTownCreateOrConnectWithoutNotesInput = {
     where: CityTownWhereUniqueInput
-    create: XOR<CityTownCreateWithoutLocationInput, CityTownUncheckedCreateWithoutLocationInput>
+    create: XOR<CityTownCreateWithoutNotesInput, CityTownUncheckedCreateWithoutNotesInput>
   }
 
-  export type StateProvinceCreateWithoutLocationInput = {
+  export type StateProvinceCreateWithoutNotesInput = {
     name: string
     latitude: number
     longitude: number
@@ -7465,7 +7465,7 @@ export namespace Prisma {
     cityTowns?: CityTownCreateNestedManyWithoutStateProvinceInput
   }
 
-  export type StateProvinceUncheckedCreateWithoutLocationInput = {
+  export type StateProvinceUncheckedCreateWithoutNotesInput = {
     id?: number
     name: string
     countryId: number
@@ -7474,12 +7474,12 @@ export namespace Prisma {
     cityTowns?: CityTownUncheckedCreateNestedManyWithoutStateProvinceInput
   }
 
-  export type StateProvinceCreateOrConnectWithoutLocationInput = {
+  export type StateProvinceCreateOrConnectWithoutNotesInput = {
     where: StateProvinceWhereUniqueInput
-    create: XOR<StateProvinceCreateWithoutLocationInput, StateProvinceUncheckedCreateWithoutLocationInput>
+    create: XOR<StateProvinceCreateWithoutNotesInput, StateProvinceUncheckedCreateWithoutNotesInput>
   }
 
-  export type CountryCreateWithoutLocationInput = {
+  export type CountryCreateWithoutNotesInput = {
     name: string
     latitude: number
     longitude: number
@@ -7487,7 +7487,7 @@ export namespace Prisma {
     stateProvinces?: StateProvinceCreateNestedManyWithoutCountryInput
   }
 
-  export type CountryUncheckedCreateWithoutLocationInput = {
+  export type CountryUncheckedCreateWithoutNotesInput = {
     id?: number
     name: string
     latitude: number
@@ -7496,23 +7496,23 @@ export namespace Prisma {
     stateProvinces?: StateProvinceUncheckedCreateNestedManyWithoutCountryInput
   }
 
-  export type CountryCreateOrConnectWithoutLocationInput = {
+  export type CountryCreateOrConnectWithoutNotesInput = {
     where: CountryWhereUniqueInput
-    create: XOR<CountryCreateWithoutLocationInput, CountryUncheckedCreateWithoutLocationInput>
+    create: XOR<CountryCreateWithoutNotesInput, CountryUncheckedCreateWithoutNotesInput>
   }
 
-  export type CityTownUpsertWithoutLocationInput = {
-    update: XOR<CityTownUpdateWithoutLocationInput, CityTownUncheckedUpdateWithoutLocationInput>
-    create: XOR<CityTownCreateWithoutLocationInput, CityTownUncheckedCreateWithoutLocationInput>
+  export type CityTownUpsertWithoutNotesInput = {
+    update: XOR<CityTownUpdateWithoutNotesInput, CityTownUncheckedUpdateWithoutNotesInput>
+    create: XOR<CityTownCreateWithoutNotesInput, CityTownUncheckedCreateWithoutNotesInput>
     where?: CityTownWhereInput
   }
 
-  export type CityTownUpdateToOneWithWhereWithoutLocationInput = {
+  export type CityTownUpdateToOneWithWhereWithoutNotesInput = {
     where?: CityTownWhereInput
-    data: XOR<CityTownUpdateWithoutLocationInput, CityTownUncheckedUpdateWithoutLocationInput>
+    data: XOR<CityTownUpdateWithoutNotesInput, CityTownUncheckedUpdateWithoutNotesInput>
   }
 
-  export type CityTownUpdateWithoutLocationInput = {
+  export type CityTownUpdateWithoutNotesInput = {
     name?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
@@ -7520,7 +7520,7 @@ export namespace Prisma {
     country?: CountryUpdateOneRequiredWithoutCityTownsNestedInput
   }
 
-  export type CityTownUncheckedUpdateWithoutLocationInput = {
+  export type CityTownUncheckedUpdateWithoutNotesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     stateProvinceId?: IntFieldUpdateOperationsInput | number
@@ -7529,18 +7529,18 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
   }
 
-  export type StateProvinceUpsertWithoutLocationInput = {
-    update: XOR<StateProvinceUpdateWithoutLocationInput, StateProvinceUncheckedUpdateWithoutLocationInput>
-    create: XOR<StateProvinceCreateWithoutLocationInput, StateProvinceUncheckedCreateWithoutLocationInput>
+  export type StateProvinceUpsertWithoutNotesInput = {
+    update: XOR<StateProvinceUpdateWithoutNotesInput, StateProvinceUncheckedUpdateWithoutNotesInput>
+    create: XOR<StateProvinceCreateWithoutNotesInput, StateProvinceUncheckedCreateWithoutNotesInput>
     where?: StateProvinceWhereInput
   }
 
-  export type StateProvinceUpdateToOneWithWhereWithoutLocationInput = {
+  export type StateProvinceUpdateToOneWithWhereWithoutNotesInput = {
     where?: StateProvinceWhereInput
-    data: XOR<StateProvinceUpdateWithoutLocationInput, StateProvinceUncheckedUpdateWithoutLocationInput>
+    data: XOR<StateProvinceUpdateWithoutNotesInput, StateProvinceUncheckedUpdateWithoutNotesInput>
   }
 
-  export type StateProvinceUpdateWithoutLocationInput = {
+  export type StateProvinceUpdateWithoutNotesInput = {
     name?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
@@ -7548,7 +7548,7 @@ export namespace Prisma {
     cityTowns?: CityTownUpdateManyWithoutStateProvinceNestedInput
   }
 
-  export type StateProvinceUncheckedUpdateWithoutLocationInput = {
+  export type StateProvinceUncheckedUpdateWithoutNotesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     countryId?: IntFieldUpdateOperationsInput | number
@@ -7557,18 +7557,18 @@ export namespace Prisma {
     cityTowns?: CityTownUncheckedUpdateManyWithoutStateProvinceNestedInput
   }
 
-  export type CountryUpsertWithoutLocationInput = {
-    update: XOR<CountryUpdateWithoutLocationInput, CountryUncheckedUpdateWithoutLocationInput>
-    create: XOR<CountryCreateWithoutLocationInput, CountryUncheckedCreateWithoutLocationInput>
+  export type CountryUpsertWithoutNotesInput = {
+    update: XOR<CountryUpdateWithoutNotesInput, CountryUncheckedUpdateWithoutNotesInput>
+    create: XOR<CountryCreateWithoutNotesInput, CountryUncheckedCreateWithoutNotesInput>
     where?: CountryWhereInput
   }
 
-  export type CountryUpdateToOneWithWhereWithoutLocationInput = {
+  export type CountryUpdateToOneWithWhereWithoutNotesInput = {
     where?: CountryWhereInput
-    data: XOR<CountryUpdateWithoutLocationInput, CountryUncheckedUpdateWithoutLocationInput>
+    data: XOR<CountryUpdateWithoutNotesInput, CountryUncheckedUpdateWithoutNotesInput>
   }
 
-  export type CountryUpdateWithoutLocationInput = {
+  export type CountryUpdateWithoutNotesInput = {
     name?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
@@ -7576,7 +7576,7 @@ export namespace Prisma {
     stateProvinces?: StateProvinceUpdateManyWithoutCountryNestedInput
   }
 
-  export type CountryUncheckedUpdateWithoutLocationInput = {
+  export type CountryUncheckedUpdateWithoutNotesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
@@ -7590,7 +7590,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     country: CountryCreateNestedOneWithoutStateProvincesInput
-    location?: NoteCreateNestedManyWithoutGeneralStateProvinceInput
+    notes?: NoteCreateNestedManyWithoutGeneralStateProvinceInput
   }
 
   export type StateProvinceUncheckedCreateWithoutCityTownsInput = {
@@ -7599,7 +7599,7 @@ export namespace Prisma {
     countryId: number
     latitude: number
     longitude: number
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralStateProvinceInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralStateProvinceInput
   }
 
   export type StateProvinceCreateOrConnectWithoutCityTownsInput = {
@@ -7612,7 +7612,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     stateProvinces?: StateProvinceCreateNestedManyWithoutCountryInput
-    location?: NoteCreateNestedManyWithoutGeneralCountryInput
+    notes?: NoteCreateNestedManyWithoutGeneralCountryInput
   }
 
   export type CountryUncheckedCreateWithoutCityTownsInput = {
@@ -7621,7 +7621,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     stateProvinces?: StateProvinceUncheckedCreateNestedManyWithoutCountryInput
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralCountryInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralCountryInput
   }
 
   export type CountryCreateOrConnectWithoutCityTownsInput = {
@@ -7638,8 +7638,8 @@ export namespace Prisma {
     country: string
     latitude: number
     longitude: number
-    generalStateProvince: StateProvinceCreateNestedOneWithoutLocationInput
-    generalCountry: CountryCreateNestedOneWithoutLocationInput
+    generalStateProvince: StateProvinceCreateNestedOneWithoutNotesInput
+    generalCountry: CountryCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateWithoutGeneralCityTownInput = {
@@ -7681,7 +7681,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     country?: CountryUpdateOneRequiredWithoutStateProvincesNestedInput
-    location?: NoteUpdateManyWithoutGeneralStateProvinceNestedInput
+    notes?: NoteUpdateManyWithoutGeneralStateProvinceNestedInput
   }
 
   export type StateProvinceUncheckedUpdateWithoutCityTownsInput = {
@@ -7690,7 +7690,7 @@ export namespace Prisma {
     countryId?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    location?: NoteUncheckedUpdateManyWithoutGeneralStateProvinceNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralStateProvinceNestedInput
   }
 
   export type CountryUpsertWithoutCityTownsInput = {
@@ -7709,7 +7709,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     stateProvinces?: StateProvinceUpdateManyWithoutCountryNestedInput
-    location?: NoteUpdateManyWithoutGeneralCountryNestedInput
+    notes?: NoteUpdateManyWithoutGeneralCountryNestedInput
   }
 
   export type CountryUncheckedUpdateWithoutCityTownsInput = {
@@ -7718,7 +7718,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     stateProvinces?: StateProvinceUncheckedUpdateManyWithoutCountryNestedInput
-    location?: NoteUncheckedUpdateManyWithoutGeneralCountryNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralCountryNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutGeneralCityTownInput = {
@@ -7760,7 +7760,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     cityTowns?: CityTownCreateNestedManyWithoutCountryInput
-    location?: NoteCreateNestedManyWithoutGeneralCountryInput
+    notes?: NoteCreateNestedManyWithoutGeneralCountryInput
   }
 
   export type CountryUncheckedCreateWithoutStateProvincesInput = {
@@ -7769,7 +7769,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     cityTowns?: CityTownUncheckedCreateNestedManyWithoutCountryInput
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralCountryInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralCountryInput
   }
 
   export type CountryCreateOrConnectWithoutStateProvincesInput = {
@@ -7782,7 +7782,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     country: CountryCreateNestedOneWithoutCityTownsInput
-    location?: NoteCreateNestedManyWithoutGeneralCityTownInput
+    notes?: NoteCreateNestedManyWithoutGeneralCityTownInput
   }
 
   export type CityTownUncheckedCreateWithoutStateProvinceInput = {
@@ -7791,7 +7791,7 @@ export namespace Prisma {
     countryId: number
     latitude: number
     longitude: number
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralCityTownInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralCityTownInput
   }
 
   export type CityTownCreateOrConnectWithoutStateProvinceInput = {
@@ -7812,8 +7812,8 @@ export namespace Prisma {
     country: string
     latitude: number
     longitude: number
-    generalCityTown: CityTownCreateNestedOneWithoutLocationInput
-    generalCountry: CountryCreateNestedOneWithoutLocationInput
+    generalCityTown: CityTownCreateNestedOneWithoutNotesInput
+    generalCountry: CountryCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateWithoutGeneralStateProvinceInput = {
@@ -7855,7 +7855,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     cityTowns?: CityTownUpdateManyWithoutCountryNestedInput
-    location?: NoteUpdateManyWithoutGeneralCountryNestedInput
+    notes?: NoteUpdateManyWithoutGeneralCountryNestedInput
   }
 
   export type CountryUncheckedUpdateWithoutStateProvincesInput = {
@@ -7864,7 +7864,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     cityTowns?: CityTownUncheckedUpdateManyWithoutCountryNestedInput
-    location?: NoteUncheckedUpdateManyWithoutGeneralCountryNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralCountryNestedInput
   }
 
   export type CityTownUpsertWithWhereUniqueWithoutStateProvinceInput = {
@@ -7916,7 +7916,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     stateProvince: StateProvinceCreateNestedOneWithoutCityTownsInput
-    location?: NoteCreateNestedManyWithoutGeneralCityTownInput
+    notes?: NoteCreateNestedManyWithoutGeneralCityTownInput
   }
 
   export type CityTownUncheckedCreateWithoutCountryInput = {
@@ -7925,7 +7925,7 @@ export namespace Prisma {
     stateProvinceId: number
     latitude: number
     longitude: number
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralCityTownInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralCityTownInput
   }
 
   export type CityTownCreateOrConnectWithoutCountryInput = {
@@ -7942,7 +7942,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     cityTowns?: CityTownCreateNestedManyWithoutStateProvinceInput
-    location?: NoteCreateNestedManyWithoutGeneralStateProvinceInput
+    notes?: NoteCreateNestedManyWithoutGeneralStateProvinceInput
   }
 
   export type StateProvinceUncheckedCreateWithoutCountryInput = {
@@ -7951,7 +7951,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     cityTowns?: CityTownUncheckedCreateNestedManyWithoutStateProvinceInput
-    location?: NoteUncheckedCreateNestedManyWithoutGeneralStateProvinceInput
+    notes?: NoteUncheckedCreateNestedManyWithoutGeneralStateProvinceInput
   }
 
   export type StateProvinceCreateOrConnectWithoutCountryInput = {
@@ -7972,8 +7972,8 @@ export namespace Prisma {
     country: string
     latitude: number
     longitude: number
-    generalCityTown: CityTownCreateNestedOneWithoutLocationInput
-    generalStateProvince: StateProvinceCreateNestedOneWithoutLocationInput
+    generalCityTown: CityTownCreateNestedOneWithoutNotesInput
+    generalStateProvince: StateProvinceCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateWithoutGeneralCountryInput = {
@@ -8081,8 +8081,8 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    generalStateProvince?: StateProvinceUpdateOneRequiredWithoutLocationNestedInput
-    generalCountry?: CountryUpdateOneRequiredWithoutLocationNestedInput
+    generalStateProvince?: StateProvinceUpdateOneRequiredWithoutNotesNestedInput
+    generalCountry?: CountryUpdateOneRequiredWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateWithoutGeneralCityTownInput = {
@@ -8140,7 +8140,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     country?: CountryUpdateOneRequiredWithoutCityTownsNestedInput
-    location?: NoteUpdateManyWithoutGeneralCityTownNestedInput
+    notes?: NoteUpdateManyWithoutGeneralCityTownNestedInput
   }
 
   export type CityTownUncheckedUpdateWithoutStateProvinceInput = {
@@ -8149,7 +8149,7 @@ export namespace Prisma {
     countryId?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    location?: NoteUncheckedUpdateManyWithoutGeneralCityTownNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralCityTownNestedInput
   }
 
   export type CityTownUncheckedUpdateManyWithoutStateProvinceInput = {
@@ -8169,8 +8169,8 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    generalCityTown?: CityTownUpdateOneRequiredWithoutLocationNestedInput
-    generalCountry?: CountryUpdateOneRequiredWithoutLocationNestedInput
+    generalCityTown?: CityTownUpdateOneRequiredWithoutNotesNestedInput
+    generalCountry?: CountryUpdateOneRequiredWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateWithoutGeneralStateProvinceInput = {
@@ -8235,7 +8235,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     stateProvince?: StateProvinceUpdateOneRequiredWithoutCityTownsNestedInput
-    location?: NoteUpdateManyWithoutGeneralCityTownNestedInput
+    notes?: NoteUpdateManyWithoutGeneralCityTownNestedInput
   }
 
   export type CityTownUncheckedUpdateWithoutCountryInput = {
@@ -8244,7 +8244,7 @@ export namespace Prisma {
     stateProvinceId?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    location?: NoteUncheckedUpdateManyWithoutGeneralCityTownNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralCityTownNestedInput
   }
 
   export type CityTownUncheckedUpdateManyWithoutCountryInput = {
@@ -8260,7 +8260,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     cityTowns?: CityTownUpdateManyWithoutStateProvinceNestedInput
-    location?: NoteUpdateManyWithoutGeneralStateProvinceNestedInput
+    notes?: NoteUpdateManyWithoutGeneralStateProvinceNestedInput
   }
 
   export type StateProvinceUncheckedUpdateWithoutCountryInput = {
@@ -8269,7 +8269,7 @@ export namespace Prisma {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     cityTowns?: CityTownUncheckedUpdateManyWithoutStateProvinceNestedInput
-    location?: NoteUncheckedUpdateManyWithoutGeneralStateProvinceNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutGeneralStateProvinceNestedInput
   }
 
   export type StateProvinceUncheckedUpdateManyWithoutCountryInput = {
@@ -8288,8 +8288,8 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    generalCityTown?: CityTownUpdateOneRequiredWithoutLocationNestedInput
-    generalStateProvince?: StateProvinceUpdateOneRequiredWithoutLocationNestedInput
+    generalCityTown?: CityTownUpdateOneRequiredWithoutNotesNestedInput
+    generalStateProvince?: StateProvinceUpdateOneRequiredWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateWithoutGeneralCountryInput = {

@@ -1,157 +1,18 @@
 import { Router } from 'express';
 import { PrismaClient } from '../generated/prisma';
+import { trimAndToLowerCase } from '../helpers/helper';
+import {
+    Coordinates,
+    GeneralCoordinates,
+    GeneralLocation,
+    Location,
+    Note,
+    GeneralLocationIDs,
+} from '../models/noteInterfaces';
+import { getGeneralLocationIDs, createGeneralLocation, getGeneralCoordinates } from '../helpers/noteHelper';
 
 const router = Router();
 const prisma = new PrismaClient();
-
-interface Coordinates {
-    latitude: number;
-    longitude: number;
-}
-
-interface GeneralCoordinates {
-    cityTown: Coordinates;
-    stateProvince: Coordinates;
-    country: Coordinates;
-}
-
-interface Location {
-    id: number;
-    coordinates: Coordinates;
-    generalCoordinates: GeneralCoordinates;
-    cityTown: string;
-    stateProvince: string;
-    country: string;
-}
-
-// interface Note {
-//     id: number;
-//     timestamp: Date;
-//     location: Location;
-//     text: string;
-// }
-
-interface GeneralLocationIDs {
-    cityTownId: number;
-    stateProvinceId: number;
-    countryId: number;
-}
-
-async function getGeneralLocationIDs(
-    cityTown: string,
-    stateProvince: string,
-    country: string
-): Promise<GeneralLocationIDs | null> {
-    try {
-        const countryData = await prisma.country.findUnique({
-            where: { name: country },
-        });
-
-        if (!countryData) throw Error('Country does not exist');
-
-        const stateProvinceData = await prisma.stateProvince.findUnique({
-            where: {
-                name_countryId: {
-                    name: stateProvince,
-                    countryId: countryData.id,
-                },
-            },
-        });
-
-        if (!stateProvinceData) throw Error('StateProvince does not exist');
-
-        const cityTownExists = await prisma.cityTown.findUnique({
-            where: {
-                name_stateProvinceId_countryId: {
-                    name: cityTown,
-                    stateProvinceId: stateProvinceData.id,
-                    countryId: countryData.id,
-                },
-            },
-        });
-
-        if (!cityTownExists) throw Error('CityTown does not exist');
-
-        const result: GeneralLocationIDs = {
-            cityTownId: cityTownExists.id,
-            stateProvinceId: stateProvinceData.id,
-            countryId: countryData.id,
-        };
-
-        return result;
-    } catch (e) {
-        console.log(e);
-        return null;
-    }
-}
-
-async function createGeneralLocation(
-    cityTown: string,
-    stateProvince: string,
-    country: string,
-    coordinates: Coordinates
-): Promise<GeneralLocationIDs | null> {
-    try {
-        let countryData = await prisma.country.findUnique({
-            where: { name: country },
-        });
-
-        if (!countryData) {
-            countryData = await prisma.country.create({
-                data: {
-                    name: country,
-                    latitude: coordinates.latitude,
-                    longitude: coordinates.longitude,
-                },
-            });
-        }
-
-        let stateProvinceData = await prisma.stateProvince.findUnique({
-            where: {
-                name_countryId: {
-                    name: stateProvince,
-                    countryId: countryData.id,
-                },
-            },
-        });
-
-        if (!stateProvinceData) {
-            stateProvinceData = await prisma.stateProvince.create({
-                data: {
-                    name: stateProvince,
-                    countryId: countryData.id,
-                    latitude: coordinates.latitude,
-                    longitude: coordinates.longitude,
-                },
-            });
-        }
-
-        const cityTownData = await prisma.cityTown.create({
-            data: {
-                name: cityTown,
-                stateProvinceId: stateProvinceData.id,
-                countryId: countryData.id,
-                latitude: coordinates.latitude,
-                longitude: coordinates.longitude,
-            },
-        });
-
-        const result: GeneralLocationIDs = {
-            cityTownId: cityTownData.id,
-            stateProvinceId: stateProvinceData.id,
-            countryId: countryData.id,
-        };
-
-        return result;
-    } catch (e) {
-        console.log(e);
-        return null;
-    }
-}
-
-router.get('/', (request, response) => {
-    response.json({ response: 'Hiya' });
-});
 
 router.post('/', async (request, response) => {
     const { text, location } = request.body;
@@ -174,18 +35,18 @@ router.post('/', async (request, response) => {
         // Create new general locations if there was no existing location
         const generalLocationIDs: GeneralLocationIDs | null = generalLocationExists
             ? generalLocationExists
-            : await createGeneralLocation(cityTown, stateProvince, country, locationData.coordinates);
+            : await createGeneralLocation(cityTown, stateProvince, country, locationData.generalCoordinates);
 
         if (!generalLocationIDs) throw Error('Failed to create a new general location');
 
         const result = await prisma.note.create({
             data: {
-                text,
+                text: trimAndToLowerCase(text),
                 latitude,
                 longitude,
-                cityTown,
-                stateProvince,
-                country,
+                cityTown: trimAndToLowerCase(cityTown),
+                stateProvince: trimAndToLowerCase(stateProvince),
+                country: trimAndToLowerCase(country),
                 cityTownId: generalLocationIDs.cityTownId,
                 stateProvinceId: generalLocationIDs.stateProvinceId,
                 countryId: generalLocationIDs.countryId,
@@ -196,6 +57,83 @@ router.post('/', async (request, response) => {
     } catch (e) {
         response.status(400).json({ error: `Failed to create note: ${e}` });
     }
+});
+
+router.post('/city', async (request, response) => {
+    const data = request.body;
+    const generalLocation = data as GeneralLocation;
+
+    try {
+        const generalCoordinates = await getGeneralLocationIDs(
+            generalLocation.cityTown,
+            generalLocation.stateProvince,
+            generalLocation.country
+        );
+
+        if (!generalCoordinates) throw Error('Location not found in database.');
+
+        const results = await prisma.cityTown.findUnique({
+            where: { id: generalCoordinates.cityTownId },
+            include: {
+                notes: {
+                    select: {
+                        id: true,
+                        createdAt: true,
+                        text: true,
+                        cityTown: true,
+                        stateProvince: true,
+                        country: true,
+                        latitude: true,
+                        longitude: true,
+                    },
+                },
+            },
+        });
+
+        if (!results) throw Error("Note doesn't exist");
+
+        const notes: Note[] = await Promise.all(
+            results.notes.map(async (note) => {
+                const coordinates: Coordinates = {
+                    latitude: note.latitude,
+                    longitude: note.longitude,
+                };
+
+                const genCoordinates: GeneralCoordinates | null = await getGeneralCoordinates(
+                    generalCoordinates.cityTownId,
+                    generalCoordinates.stateProvinceId,
+                    generalCoordinates.countryId
+                );
+
+                const location: Location = {
+                    id: note.id,
+                    coordinates,
+                    generalCoordinates: genCoordinates || {
+                        cityTown: { latitude: 0, longitude: 0 },
+                        stateProvince: { latitude: 0, longitude: 0 },
+                        country: { latitude: 0, longitude: 0 },
+                    },
+                    cityTown: note.cityTown,
+                    stateProvince: note.stateProvince,
+                    country: note.country,
+                };
+
+                const preparedNote: Note = {
+                    id: note.id,
+                    timestamp: note.createdAt,
+                    location,
+                    text: note.text,
+                };
+
+                return preparedNote;
+            })
+        );
+
+        response.json(notes);
+    } catch (e) {
+        response.status(400).json({ error: `Failed to create note: ${e}` });
+    }
+    response.json({ generalLocation });
 });
 
 export default router;

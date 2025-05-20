@@ -75,7 +75,7 @@ model CityTown {
   stateProvince StateProvince @relation(fields: [stateProvinceId], references: [id])
   country Country @relation(fields: [countryId], references: [id])
   
-  location Note[]
+  notes Note[]
 
   @@unique([name, stateProvinceId, countryId])
 }
@@ -91,7 +91,8 @@ model StateProvince {
   country Country @relation(fields: [countryId], references: [id])
 
   cityTowns CityTown[]
-  location Note[]
+
+  notes Note[]
 
   @@unique([name, countryId])
 }
@@ -105,5 +106,6 @@ model Country {
 
   cityTowns CityTown[]
   stateProvinces StateProvince[]
-  location Note[]
+
+  notes Note[]
 }
