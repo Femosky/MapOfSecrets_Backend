@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated/prisma';
+// import { PrismaClient } from '../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { trimAndToLowerCase } from '../helpers/helper';
 import {
     Coordinates,
@@ -41,7 +42,7 @@ router.post('/', async (request, response) => {
 
         const result = await prisma.note.create({
             data: {
-                text: trimAndToLowerCase(text),
+                text: text,
                 latitude,
                 longitude,
                 cityTown: trimAndToLowerCase(cityTown),
@@ -53,7 +54,12 @@ router.post('/', async (request, response) => {
             },
         });
 
-        response.json(result);
+        if (!result) {
+            response.json({ error: 'Failed to create the note.' });
+            return;
+        }
+
+        response.json({ message: 'Note successfully created.' });
     } catch (e) {
         response.status(400).json({ error: `Failed to create note: ${e}` });
     }
@@ -101,7 +107,7 @@ router.post('/city', async (request, response) => {
         }
 
         const notes: Note[] = await Promise.all(
-            results.notes.map(async (note) => {
+            results.notes.map(async (note: any) => {
                 const coordinates: Coordinates = {
                     latitude: note.latitude,
                     longitude: note.longitude,
