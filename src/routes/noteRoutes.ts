@@ -71,9 +71,9 @@ router.post('/city', async (request, response) => {
 
     try {
         const generalCoordinates = await getGeneralLocationIDs(
-            generalLocation.cityTown,
-            generalLocation.stateProvince,
-            generalLocation.country
+            trimAndToLowerCase(generalLocation.cityTown),
+            trimAndToLowerCase(generalLocation.stateProvince),
+            trimAndToLowerCase(generalLocation.country)
         );
 
         if (!generalCoordinates) {

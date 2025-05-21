@@ -64,7 +64,7 @@ router.post('/city', (request, response) => __awaiter(void 0, void 0, void 0, fu
     const data = request.body;
     const generalLocation = data;
     try {
-        const generalCoordinates = yield (0, noteHelper_1.getGeneralLocationIDs)(generalLocation.cityTown, generalLocation.stateProvince, generalLocation.country);
+        const generalCoordinates = yield (0, noteHelper_1.getGeneralLocationIDs)((0, helper_1.trimAndToLowerCase)(generalLocation.cityTown), (0, helper_1.trimAndToLowerCase)(generalLocation.stateProvince), (0, helper_1.trimAndToLowerCase)(generalLocation.country));
         if (!generalCoordinates) {
             // throw Error('Location not found in database.');
             response.json({ error: 'Location not found in database.' });
