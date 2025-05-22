@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -20,6 +21,10 @@ model Note {
   cityTown String
   stateProvince String
   country String
+
+  cityTownGooglePlaceId String
+  stateProvinceGooglePlaceId String
+  countryGooglePlaceId String
 
   latitude Float
   longitude Float
@@ -36,6 +41,7 @@ model Note {
 
 model CityTown {
   id Int @id @default(autoincrement())
+  googlePlaceId String @unique
 
   name String
   stateProvinceId Int
@@ -53,6 +59,7 @@ model CityTown {
 }
 model StateProvince {
   id Int @id @default(autoincrement())
+  googlePlaceId String @unique
 
   name String
   countryId Int
@@ -70,6 +77,7 @@ model StateProvince {
 }
 model Country {
   id Int @id @default(autoincrement())
+  googlePlaceId String @unique
 
   name String @unique
 

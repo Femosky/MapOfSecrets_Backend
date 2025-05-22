@@ -9,16 +9,22 @@ export interface GeneralCoordinates {
     country: Coordinates;
 }
 
+export interface PlaceInfo {
+    placeId: string;
+    name: string;
+}
+
 export interface GeneralLocation {
-    cityTown: string;
-    stateProvince: string;
-    country: string;
+    cityTown: PlaceInfo;
+    stateProvince: PlaceInfo;
+    country: PlaceInfo;
 }
 
 export interface Location {
     id: number;
     coordinates: Coordinates;
     generalCoordinates: GeneralCoordinates;
+    generalLocation: GeneralLocation;
     cityTown: string;
     stateProvince: string;
     country: string;

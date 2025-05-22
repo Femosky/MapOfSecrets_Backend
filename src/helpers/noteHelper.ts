@@ -13,39 +13,22 @@ import { trimAndToLowerCase } from './helper';
 
 const prisma = new PrismaClient();
 
-export async function getGeneralLocationIDs(
-    cityTown: string,
-    stateProvince: string,
-    country: string
-): Promise<GeneralLocationIDs | null> {
+export async function getGeneralLocationIDs(generalLocation: GeneralLocation): Promise<GeneralLocationIDs | null> {
     try {
         const countryData = await prisma.country.findUnique({
-            where: { name: country },
+            where: { googlePlaceId: generalLocation.country.placeId },
         });
 
         if (!countryData) throw Error('Country does not exist');
 
-        console.log('stateee', stateProvince);
-
         const stateProvinceData = await prisma.stateProvince.findUnique({
-            where: {
-                name_countryId: {
-                    name: stateProvince,
-                    countryId: countryData.id,
-                },
-            },
+            where: { googlePlaceId: generalLocation.stateProvince.placeId },
         });
 
         if (!stateProvinceData) throw Error('StateProvince does not exist');
 
         const cityTownExists = await prisma.cityTown.findUnique({
-            where: {
-                name_stateProvinceId_countryId: {
-                    name: cityTown,
-                    stateProvinceId: stateProvinceData.id,
-                    countryId: countryData.id,
-                },
-            },
+            where: { googlePlaceId: generalLocation.cityTown.placeId },
         });
 
         if (!cityTownExists) throw Error('CityTown does not exist');
@@ -67,16 +50,18 @@ export async function createGeneralLocation(
     cityTown: string,
     stateProvince: string,
     country: string,
-    coordinates: GeneralCoordinates
+    coordinates: GeneralCoordinates,
+    generalLocation: GeneralLocation
 ): Promise<GeneralLocationIDs | null> {
     try {
         let countryData = await prisma.country.findUnique({
-            where: { name: country },
+            where: { googlePlaceId: generalLocation.country.placeId },
         });
 
         if (!countryData) {
             countryData = await prisma.country.create({
                 data: {
+                    googlePlaceId: generalLocation.country.placeId,
                     name: trimAndToLowerCase(country),
                     latitude: coordinates.country.latitude,
                     longitude: coordinates.country.longitude,
@@ -85,17 +70,13 @@ export async function createGeneralLocation(
         }
 
         let stateProvinceData = await prisma.stateProvince.findUnique({
-            where: {
-                name_countryId: {
-                    name: stateProvince,
-                    countryId: countryData.id,
-                },
-            },
+            where: { googlePlaceId: generalLocation.stateProvince.placeId },
         });
 
         if (!stateProvinceData) {
             stateProvinceData = await prisma.stateProvince.create({
                 data: {
+                    googlePlaceId: generalLocation.stateProvince.placeId,
                     name: trimAndToLowerCase(stateProvince),
                     countryId: countryData.id,
                     latitude: coordinates.stateProvince.latitude,
@@ -106,6 +87,7 @@ export async function createGeneralLocation(
 
         const cityTownData = await prisma.cityTown.create({
             data: {
+                googlePlaceId: generalLocation.cityTown.placeId,
                 name: trimAndToLowerCase(cityTown),
                 stateProvinceId: stateProvinceData.id,
                 countryId: countryData.id,

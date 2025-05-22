@@ -31,12 +31,18 @@ router.post('/', async (request, response) => {
         if (!locationData) throw Error('Invalid post data.');
 
         // Find out if general coordinates already exists
-        const generalLocationExists = await getGeneralLocationIDs(cityTown, stateProvince, country);
+        const generalLocationExists = await getGeneralLocationIDs(locationData.generalLocation);
 
         // Create new general locations if there was no existing location
         const generalLocationIDs: GeneralLocationIDs | null = generalLocationExists
             ? generalLocationExists
-            : await createGeneralLocation(cityTown, stateProvince, country, locationData.generalCoordinates);
+            : await createGeneralLocation(
+                  cityTown,
+                  stateProvince,
+                  country,
+                  locationData.generalCoordinates,
+                  locationData.generalLocation
+              );
 
         if (!generalLocationIDs) throw Error('Failed to create a new general location');
 
@@ -51,6 +57,9 @@ router.post('/', async (request, response) => {
                 cityTownId: generalLocationIDs.cityTownId,
                 stateProvinceId: generalLocationIDs.stateProvinceId,
                 countryId: generalLocationIDs.countryId,
+                cityTownGooglePlaceId: locationData.generalLocation.cityTown.placeId,
+                stateProvinceGooglePlaceId: locationData.generalLocation.stateProvince.placeId,
+                countryGooglePlaceId: locationData.generalLocation.country.placeId,
             },
         });
 
@@ -59,7 +68,7 @@ router.post('/', async (request, response) => {
             return;
         }
 
-        response.json({ message: 'Note successfully created.' });
+        response.json({ message: 'Note successfully created.', noteId: result.id });
     } catch (e) {
         response.status(400).json({ error: `Failed to create note: ${e}` });
     }
@@ -70,11 +79,9 @@ router.post('/city', async (request, response) => {
     const generalLocation = data as GeneralLocation;
 
     try {
-        const generalCoordinates = await getGeneralLocationIDs(
-            trimAndToLowerCase(generalLocation.cityTown),
-            trimAndToLowerCase(generalLocation.stateProvince),
-            trimAndToLowerCase(generalLocation.country)
-        );
+        if (!generalLocation) throw Error('Invalid post data.');
+
+        const generalCoordinates = await getGeneralLocationIDs(generalLocation);
 
         if (!generalCoordinates) {
             // throw Error('Location not found in database.');
@@ -127,6 +134,7 @@ router.post('/city', async (request, response) => {
                         stateProvince: { latitude: 0, longitude: 0 },
                         country: { latitude: 0, longitude: 0 },
                     },
+                    generalLocation,
                     cityTown: note.cityTown,
                     stateProvince: note.stateProvince,
                     country: note.country,
