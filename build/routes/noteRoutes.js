@@ -30,11 +30,11 @@ router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, functi
         if (!locationData)
             throw Error('Invalid post data.');
         // Find out if general coordinates already exists
-        const generalLocationExists = yield (0, noteHelper_1.getGeneralLocationIDs)(cityTown, stateProvince, country);
+        const generalLocationExists = yield (0, noteHelper_1.getGeneralLocationIDs)(locationData.generalLocation);
         // Create new general locations if there was no existing location
         const generalLocationIDs = generalLocationExists
             ? generalLocationExists
-            : yield (0, noteHelper_1.createGeneralLocation)(cityTown, stateProvince, country, locationData.generalCoordinates);
+            : yield (0, noteHelper_1.createGeneralLocation)(cityTown, stateProvince, country, locationData.generalCoordinates, locationData.generalLocation);
         if (!generalLocationIDs)
             throw Error('Failed to create a new general location');
         const result = yield prisma.note.create({
@@ -48,13 +48,16 @@ router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, functi
                 cityTownId: generalLocationIDs.cityTownId,
                 stateProvinceId: generalLocationIDs.stateProvinceId,
                 countryId: generalLocationIDs.countryId,
+                cityTownGooglePlaceId: locationData.generalLocation.cityTown.placeId,
+                stateProvinceGooglePlaceId: locationData.generalLocation.stateProvince.placeId,
+                countryGooglePlaceId: locationData.generalLocation.country.placeId,
             },
         });
         if (!result) {
             response.json({ error: 'Failed to create the note.' });
             return;
         }
-        response.json({ message: 'Note successfully created.' });
+        response.json({ message: 'Note successfully created.', noteId: result.id });
     }
     catch (e) {
         response.status(400).json({ error: `Failed to create note: ${e}` });
@@ -64,7 +67,9 @@ router.post('/city', (request, response) => __awaiter(void 0, void 0, void 0, fu
     const data = request.body;
     const generalLocation = data;
     try {
-        const generalCoordinates = yield (0, noteHelper_1.getGeneralLocationIDs)((0, helper_1.trimAndToLowerCase)(generalLocation.cityTown), (0, helper_1.trimAndToLowerCase)(generalLocation.stateProvince), (0, helper_1.trimAndToLowerCase)(generalLocation.country));
+        if (!generalLocation)
+            throw Error('Invalid post data.');
+        const generalCoordinates = yield (0, noteHelper_1.getGeneralLocationIDs)(generalLocation);
         if (!generalCoordinates) {
             // throw Error('Location not found in database.');
             response.json({ error: 'Location not found in database.' });
@@ -106,6 +111,7 @@ router.post('/city', (request, response) => __awaiter(void 0, void 0, void 0, fu
                     stateProvince: { latitude: 0, longitude: 0 },
                     country: { latitude: 0, longitude: 0 },
                 },
+                generalLocation,
                 cityTown: note.cityTown,
                 stateProvince: note.stateProvince,
                 country: note.country,

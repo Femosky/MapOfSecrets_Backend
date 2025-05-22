@@ -16,33 +16,21 @@ exports.getGeneralCoordinates = getGeneralCoordinates;
 const client_1 = require("@prisma/client");
 const helper_1 = require("./helper");
 const prisma = new client_1.PrismaClient();
-function getGeneralLocationIDs(cityTown, stateProvince, country) {
+function getGeneralLocationIDs(generalLocation) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const countryData = yield prisma.country.findUnique({
-                where: { name: country },
+                where: { googlePlaceId: generalLocation.country.placeId },
             });
             if (!countryData)
                 throw Error('Country does not exist');
-            console.log('stateee', stateProvince);
             const stateProvinceData = yield prisma.stateProvince.findUnique({
-                where: {
-                    name_countryId: {
-                        name: stateProvince,
-                        countryId: countryData.id,
-                    },
-                },
+                where: { googlePlaceId: generalLocation.stateProvince.placeId },
             });
             if (!stateProvinceData)
                 throw Error('StateProvince does not exist');
             const cityTownExists = yield prisma.cityTown.findUnique({
-                where: {
-                    name_stateProvinceId_countryId: {
-                        name: cityTown,
-                        stateProvinceId: stateProvinceData.id,
-                        countryId: countryData.id,
-                    },
-                },
+                where: { googlePlaceId: generalLocation.cityTown.placeId },
             });
             if (!cityTownExists)
                 throw Error('CityTown does not exist');
@@ -59,15 +47,16 @@ function getGeneralLocationIDs(cityTown, stateProvince, country) {
         }
     });
 }
-function createGeneralLocation(cityTown, stateProvince, country, coordinates) {
+function createGeneralLocation(cityTown, stateProvince, country, coordinates, generalLocation) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let countryData = yield prisma.country.findUnique({
-                where: { name: country },
+                where: { googlePlaceId: generalLocation.country.placeId },
             });
             if (!countryData) {
                 countryData = yield prisma.country.create({
                     data: {
+                        googlePlaceId: generalLocation.country.placeId,
                         name: (0, helper_1.trimAndToLowerCase)(country),
                         latitude: coordinates.country.latitude,
                         longitude: coordinates.country.longitude,
@@ -75,16 +64,12 @@ function createGeneralLocation(cityTown, stateProvince, country, coordinates) {
                 });
             }
             let stateProvinceData = yield prisma.stateProvince.findUnique({
-                where: {
-                    name_countryId: {
-                        name: stateProvince,
-                        countryId: countryData.id,
-                    },
-                },
+                where: { googlePlaceId: generalLocation.stateProvince.placeId },
             });
             if (!stateProvinceData) {
                 stateProvinceData = yield prisma.stateProvince.create({
                     data: {
+                        googlePlaceId: generalLocation.stateProvince.placeId,
                         name: (0, helper_1.trimAndToLowerCase)(stateProvince),
                         countryId: countryData.id,
                         latitude: coordinates.stateProvince.latitude,
@@ -94,6 +79,7 @@ function createGeneralLocation(cityTown, stateProvince, country, coordinates) {
             }
             const cityTownData = yield prisma.cityTown.create({
                 data: {
+                    googlePlaceId: generalLocation.cityTown.placeId,
                     name: (0, helper_1.trimAndToLowerCase)(cityTown),
                     stateProvinceId: stateProvinceData.id,
                     countryId: countryData.id,
