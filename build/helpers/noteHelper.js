@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getGeneralLocationIDs = getGeneralLocationIDs;
+exports.getGooglePlaceId = getGooglePlaceId;
 exports.createGeneralLocation = createGeneralLocation;
 exports.getGeneralCoordinates = getGeneralCoordinates;
 // import { PrismaClient } from '../generated/prisma';
@@ -40,6 +41,44 @@ function getGeneralLocationIDs(generalLocation) {
                 countryId: countryData.id,
             };
             return result;
+        }
+        catch (e) {
+            console.log(e);
+            return null;
+        }
+    });
+}
+function getGooglePlaceId(locationFetchNoteData) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            let countryData = null;
+            let stateProvinceData = null;
+            let cityTownData = null;
+            if (locationFetchNoteData.locationType === 'country') {
+                countryData = yield prisma.country.findUnique({
+                    where: { googlePlaceId: locationFetchNoteData.placeId },
+                });
+                if (!countryData)
+                    throw Error('Country does not exist');
+                return countryData.googlePlaceId;
+            }
+            else if (locationFetchNoteData.locationType === 'stateProvince') {
+                stateProvinceData = yield prisma.stateProvince.findUnique({
+                    where: { googlePlaceId: locationFetchNoteData.placeId },
+                });
+                if (!stateProvinceData)
+                    throw Error('StateProvince does not exist');
+                return stateProvinceData.googlePlaceId;
+            }
+            else if (locationFetchNoteData.locationType === 'cityTown') {
+                cityTownData = yield prisma.cityTown.findUnique({
+                    where: { googlePlaceId: locationFetchNoteData.placeId },
+                });
+                if (!cityTownData)
+                    throw Error('CityTown does not exist');
+                return cityTownData.googlePlaceId;
+            }
+            return null;
         }
         catch (e) {
             console.log(e);

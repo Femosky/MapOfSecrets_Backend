@@ -27,7 +27,7 @@ router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, functi
     // Create and store note
     try {
         // Validate post data
-        if (!locationData)
+        if (!locationData || !locationData.generalLocation)
             throw Error('Invalid post data.');
         // Find out if general coordinates already exists
         const generalLocationExists = yield (0, noteHelper_1.getGeneralLocationIDs)(locationData.generalLocation);
@@ -63,35 +63,72 @@ router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, functi
         response.status(400).json({ error: `Failed to create note: ${e}` });
     }
 }));
-router.post('/city', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/location', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     const data = request.body;
-    const generalLocation = data;
+    const payload = data;
     try {
-        if (!generalLocation)
+        if (!payload)
             throw Error('Invalid post data.');
-        const generalCoordinates = yield (0, noteHelper_1.getGeneralLocationIDs)(generalLocation);
-        if (!generalCoordinates) {
-            // throw Error('Location not found in database.');
-            response.json({ error: 'Location not found in database.' });
-            return;
-        }
-        const results = yield prisma.cityTown.findUnique({
-            where: { id: generalCoordinates.cityTownId },
-            include: {
-                notes: {
-                    select: {
-                        id: true,
-                        createdAt: true,
-                        text: true,
-                        cityTown: true,
-                        stateProvince: true,
-                        country: true,
-                        latitude: true,
-                        longitude: true,
+        let results = null;
+        if (payload.locationType === 'cityTown') {
+            results = yield prisma.cityTown.findUnique({
+                where: { googlePlaceId: payload.placeId },
+                include: {
+                    notes: {
+                        select: {
+                            id: true,
+                            createdAt: true,
+                            text: true,
+                            cityTown: true,
+                            stateProvince: true,
+                            country: true,
+                            latitude: true,
+                            longitude: true,
+                        },
                     },
                 },
-            },
-        });
+            });
+        }
+        else if (payload.locationType === 'stateProvince') {
+            results = yield prisma.stateProvince.findUnique({
+                where: { googlePlaceId: payload.placeId },
+                include: {
+                    notes: {
+                        select: {
+                            id: true,
+                            createdAt: true,
+                            text: true,
+                            cityTown: true,
+                            stateProvince: true,
+                            country: true,
+                            latitude: true,
+                            longitude: true,
+                        },
+                    },
+                },
+            });
+        }
+        else if (payload.locationType === 'country')
+            results = yield prisma.country.findUnique({
+                where: { googlePlaceId: payload.placeId },
+                include: {
+                    notes: {
+                        select: {
+                            id: true,
+                            createdAt: true,
+                            text: true,
+                            cityTown: true,
+                            stateProvince: true,
+                            country: true,
+                            cityTownId: true,
+                            stateProvinceId: true,
+                            countryId: true,
+                            latitude: true,
+                            longitude: true,
+                        },
+                    },
+                },
+            });
         if (!results) {
             // throw Error("Note doesn't exist");
             response.json({ error: "Note doesn't exist" });
@@ -102,16 +139,15 @@ router.post('/city', (request, response) => __awaiter(void 0, void 0, void 0, fu
                 latitude: note.latitude,
                 longitude: note.longitude,
             };
-            const genCoordinates = yield (0, noteHelper_1.getGeneralCoordinates)(generalCoordinates.cityTownId, generalCoordinates.stateProvinceId, generalCoordinates.countryId);
+            const genCoordinates = yield (0, noteHelper_1.getGeneralCoordinates)(note.cityTownId, note.stateProvinceId, note.countryId);
             const location = {
-                id: generalCoordinates.cityTownId,
+                id: note.id,
                 coordinates,
                 generalCoordinates: genCoordinates || {
                     cityTown: { latitude: 0, longitude: 0 },
                     stateProvince: { latitude: 0, longitude: 0 },
                     country: { latitude: 0, longitude: 0 },
                 },
-                generalLocation,
                 cityTown: note.cityTown,
                 stateProvince: note.stateProvince,
                 country: note.country,
@@ -127,8 +163,7 @@ router.post('/city', (request, response) => __awaiter(void 0, void 0, void 0, fu
         response.json({ notes });
     }
     catch (e) {
-        response.status(400).json({ error: `Failed to create note: ${e}` });
+        response.status(400).json({ error: `Failed to get notes: ${e}` });
     }
-    response.json({ generalLocation });
 }));
 exports.default = router;
