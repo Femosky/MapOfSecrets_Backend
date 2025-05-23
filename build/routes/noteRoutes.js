@@ -130,8 +130,7 @@ router.post('/location', (request, response) => __awaiter(void 0, void 0, void 0
                 },
             });
         if (!results) {
-            // throw Error("Note doesn't exist");
-            response.json({ error: "Note doesn't exist" });
+            response.json({ error: "Note doesn't exist or placeId doesn't exist." });
             return;
         }
         const notes = yield Promise.all(results.notes.map((note) => __awaiter(void 0, void 0, void 0, function* () {

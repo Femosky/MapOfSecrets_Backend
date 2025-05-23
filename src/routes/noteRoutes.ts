@@ -148,8 +148,7 @@ router.post('/location', async (request, response) => {
             });
 
         if (!results) {
-            // throw Error("Note doesn't exist");
-            response.json({ error: "Note doesn't exist" });
+            response.json({ error: "Note doesn't exist or placeId doesn't exist." });
             return;
         }
 
