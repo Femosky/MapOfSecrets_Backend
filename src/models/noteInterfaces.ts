@@ -24,7 +24,7 @@ export interface Location {
     id: number;
     coordinates: Coordinates;
     generalCoordinates: GeneralCoordinates;
-    generalLocation: GeneralLocation;
+    generalLocation?: GeneralLocation;
     cityTown: string;
     stateProvince: string;
     country: string;
@@ -41,4 +41,9 @@ export interface GeneralLocationIDs {
     cityTownId: number;
     stateProvinceId: number;
     countryId: number;
+}
+
+export interface LocationFetchNoteData {
+    locationType: string;
+    placeId: string;
 }

@@ -8,6 +8,7 @@ import {
     Location,
     Note,
     GeneralLocationIDs,
+    LocationFetchNoteData,
 } from '../models/noteInterfaces';
 import { trimAndToLowerCase } from './helper';
 
@@ -40,6 +41,42 @@ export async function getGeneralLocationIDs(generalLocation: GeneralLocation): P
         };
 
         return result;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+
+export async function getGooglePlaceId(locationFetchNoteData: LocationFetchNoteData): Promise<string | null> {
+    try {
+        let countryData = null;
+        let stateProvinceData = null;
+        let cityTownData = null;
+
+        if (locationFetchNoteData.locationType === 'country') {
+            countryData = await prisma.country.findUnique({
+                where: { googlePlaceId: locationFetchNoteData.placeId },
+            });
+
+            if (!countryData) throw Error('Country does not exist');
+            return countryData.googlePlaceId;
+        } else if (locationFetchNoteData.locationType === 'stateProvince') {
+            stateProvinceData = await prisma.stateProvince.findUnique({
+                where: { googlePlaceId: locationFetchNoteData.placeId },
+            });
+
+            if (!stateProvinceData) throw Error('StateProvince does not exist');
+            return stateProvinceData.googlePlaceId;
+        } else if (locationFetchNoteData.locationType === 'cityTown') {
+            cityTownData = await prisma.cityTown.findUnique({
+                where: { googlePlaceId: locationFetchNoteData.placeId },
+            });
+
+            if (!cityTownData) throw Error('CityTown does not exist');
+            return cityTownData.googlePlaceId;
+        }
+
+        return null;
     } catch (e) {
         console.log(e);
         return null;

@@ -9,8 +9,14 @@ import {
     Location,
     Note,
     GeneralLocationIDs,
+    LocationFetchNoteData,
 } from '../models/noteInterfaces';
-import { getGeneralLocationIDs, createGeneralLocation, getGeneralCoordinates } from '../helpers/noteHelper';
+import {
+    createGeneralLocation,
+    getGeneralCoordinates,
+    getGeneralLocationIDs,
+    getGooglePlaceId,
+} from '../helpers/noteHelper';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -28,7 +34,7 @@ router.post('/', async (request, response) => {
     // Create and store note
     try {
         // Validate post data
-        if (!locationData) throw Error('Invalid post data.');
+        if (!locationData || !locationData.generalLocation) throw Error('Invalid post data.');
 
         // Find out if general coordinates already exists
         const generalLocationExists = await getGeneralLocationIDs(locationData.generalLocation);
@@ -74,38 +80,72 @@ router.post('/', async (request, response) => {
     }
 });
 
-router.post('/city', async (request, response) => {
+router.post('/location', async (request, response) => {
     const data = request.body;
-    const generalLocation = data as GeneralLocation;
+    const payload = data as LocationFetchNoteData;
 
     try {
-        if (!generalLocation) throw Error('Invalid post data.');
+        if (!payload) throw Error('Invalid post data.');
 
-        const generalCoordinates = await getGeneralLocationIDs(generalLocation);
+        let results = null;
 
-        if (!generalCoordinates) {
-            // throw Error('Location not found in database.');
-            response.json({ error: 'Location not found in database.' });
-            return;
-        }
-
-        const results = await prisma.cityTown.findUnique({
-            where: { id: generalCoordinates.cityTownId },
-            include: {
-                notes: {
-                    select: {
-                        id: true,
-                        createdAt: true,
-                        text: true,
-                        cityTown: true,
-                        stateProvince: true,
-                        country: true,
-                        latitude: true,
-                        longitude: true,
+        if (payload.locationType === 'cityTown') {
+            results = await prisma.cityTown.findUnique({
+                where: { googlePlaceId: payload.placeId },
+                include: {
+                    notes: {
+                        select: {
+                            id: true,
+                            createdAt: true,
+                            text: true,
+                            cityTown: true,
+                            stateProvince: true,
+                            country: true,
+                            latitude: true,
+                            longitude: true,
+                        },
                     },
                 },
-            },
-        });
+            });
+        } else if (payload.locationType === 'stateProvince') {
+            results = await prisma.stateProvince.findUnique({
+                where: { googlePlaceId: payload.placeId },
+                include: {
+                    notes: {
+                        select: {
+                            id: true,
+                            createdAt: true,
+                            text: true,
+                            cityTown: true,
+                            stateProvince: true,
+                            country: true,
+                            latitude: true,
+                            longitude: true,
+                        },
+                    },
+                },
+            });
+        } else if (payload.locationType === 'country')
+            results = await prisma.country.findUnique({
+                where: { googlePlaceId: payload.placeId },
+                include: {
+                    notes: {
+                        select: {
+                            id: true,
+                            createdAt: true,
+                            text: true,
+                            cityTown: true,
+                            stateProvince: true,
+                            country: true,
+                            cityTownId: true,
+                            stateProvinceId: true,
+                            countryId: true,
+                            latitude: true,
+                            longitude: true,
+                        },
+                    },
+                },
+            });
 
         if (!results) {
             // throw Error("Note doesn't exist");
@@ -121,20 +161,19 @@ router.post('/city', async (request, response) => {
                 };
 
                 const genCoordinates: GeneralCoordinates | null = await getGeneralCoordinates(
-                    generalCoordinates.cityTownId,
-                    generalCoordinates.stateProvinceId,
-                    generalCoordinates.countryId
+                    note.cityTownId,
+                    note.stateProvinceId,
+                    note.countryId
                 );
 
                 const location: Location = {
-                    id: generalCoordinates.cityTownId,
+                    id: note.id,
                     coordinates,
                     generalCoordinates: genCoordinates || {
                         cityTown: { latitude: 0, longitude: 0 },
                         stateProvince: { latitude: 0, longitude: 0 },
                         country: { latitude: 0, longitude: 0 },
                     },
-                    generalLocation,
                     cityTown: note.cityTown,
                     stateProvince: note.stateProvince,
                     country: note.country,
@@ -153,9 +192,8 @@ router.post('/city', async (request, response) => {
 
         response.json({ notes });
     } catch (e) {
-        response.status(400).json({ error: `Failed to create note: ${e}` });
+        response.status(400).json({ error: `Failed to get notes: ${e}` });
     }
-    response.json({ generalLocation });
 });
 
 export default router;
