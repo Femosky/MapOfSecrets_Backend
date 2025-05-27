@@ -1,8 +1,6 @@
 # MapOfSecrets Backend
 
-[![License](https://img.shields.io/github/license/Femosky/MapOfSecrets_Backend.svg)](LICENSE)  
-![Last Commit](https://img.shields.io/github/last-commit/Femosky/MapOfSecrets_Backend.svg)  
-![Issues](https://img.shields.io/github/issues/Femosky/MapOfSecrets_Backend.svg)  
+[![License](https://img.shields.io/github/license/Femosky/MapOfSecrets_Backend.svg)](LICENSE) ![Last Commit](https://img.shields.io/github/last-commit/Femosky/MapOfSecrets_Backend.svg) ![Issues](https://img.shields.io/github/issues/Femosky/MapOfSecrets_Backend.svg)  
 
 A RESTful API backend for the MapOfSecrets app—storing and serving anonymous, location-tied secrets via Express.js and Prisma.
 
@@ -40,7 +38,6 @@ A RESTful API backend for the MapOfSecrets app—storing and serving anonymous, 
 - **Database**: PostgreSQL (AWS RDS)  
 - **Docs**: Swagger / OpenAPI  
 - **Deployment**: AWS EC2  
-- **Env Management**: dotenv
 
 ---
 
@@ -50,51 +47,53 @@ A RESTful API backend for the MapOfSecrets app—storing and serving anonymous, 
    ```bash
    git clone https://github.com/Femosky/MapOfSecrets_Backend.git
    cd MapOfSecrets_Backend
+   
+2. **Install Node**
+   - Refer to this doc to properly install node on your computer -> [Install](https://nodejs.org/en/download)
+   - Check if node if installed; if installed, it should print the version number
+   ```bash
+   node -v
 
-2. **Install NPM and all required dependencies**  
+2. **Install dependencies**  
    ```bash
    npm install
-   npm install tailwindcss @tailwindcss/vite
-   npm install tailwind-merge
-   npm install lucide-react
-   npm install framer-motion
-   npm install date-fns
-   npm i -g vercel
-   npm i @vercel/analytics
-   npm i @react-google-maps/api
-   npm i @googlemaps/markerclusterer
 
 3. **Configure environment variables**
-   - You need to get a google maps api key from [here](https://mapsplatform.google.com) first.
+   - Copy `.env.example` → `.env` and fill in:
    - Create and use it in a `.env` file in the project root with:
    ```bash
-   VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+   DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB_NAME
+   PORT=4000
 
-5. **Run in development mode**
+5. **Initialize database**
+   ```bash
+   npx prisma migrate dev   # run migrations
+   npx prisma db seed       # optional seed data
+
+6. **Run in development**
    ```bash
    npm run dev
 
 6. **Build for production**
    ```bash
-   npm build run
+   npm run build
+   npm start
 
 ## 📂 Project Structure
 
-| Name                   | Description                                             |
-| ---------------------- | ------------------------------------------------------- |
-| **public/**            | Static assets (favicon)                                 |
-| **src/**               | Source code files                                       |
-| **src/components**     | React UI components (Map, etc.)                         |
-| **src/contexts**       | React context providers                                 |
-| **src/hooks**          | Custom React hooks (useMap, useNotes, etc.)             |
-| **src/models**         | Map Typescript Interfaces                               |
-| **src/utils**          | Utility functions (API calls, formatting)               |
-| **src/App.tsx/**       | Root React component                                    |
-| **src/main.tsx**       | React entry point                                       |
-| **package.json/**      | Dependencies & npm scripts                              |
-| **tsconfig.json/**     | TypeScript configuration                                |
-| **vite.config.json/**  | Vite build settings                                     |
-| **.env/**              | Environment variable definitions                        |
+| Path                      | Description                                        |
+| ------------------------- | -------------------------------------------------- |
+| **prisma/**               | Prisma orm directory                               |
+| **prisma/schema.prisma**  | Prisma schema                                      |
+| **src/**                  | Application source code directory                  |
+| **src/routes/**           | Express route definitions                          |
+| **src/models/**           | Typescript interface definitions                   |
+| **src/helpers/**          | Helpers - utility global functions                 |
+| **src/index.ts**          | Express app setup (middleware, docs, routes)       |
+| **.env.example**          | Env var template                                   |
+| **package.json**          | Scripts & dependencies                             |
+| **tsconfig.json**         | TypeScript configuration                           |
+| **README.md**             | Project overview & setup instructions              |
 
 ## 📄 License
 
