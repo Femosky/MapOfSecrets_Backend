@@ -54,11 +54,11 @@ A RESTful API backend for the MapOfSecrets app—storing and serving anonymous, 
    ```bash
    node -v
 
-2. **Install dependencies**  
+3. **Install dependencies**  
    ```bash
    npm install
 
-3. **Configure environment variables**
+4. **Configure environment variables**
    - Copy `.env.example` → `.env` and fill in:
    - Create and use it in a `.env` file in the project root with:
    ```bash
@@ -70,11 +70,15 @@ A RESTful API backend for the MapOfSecrets app—storing and serving anonymous, 
    npx prisma migrate dev   # run migrations
    npx prisma db seed       # optional seed data
 
-6. **Run in development**
+6. **Run Prisma Studio to view database**
+   ```bash
+   npx prisma studio
+   
+7. **Run in development**
    ```bash
    npm run dev
 
-6. **Build for production**
+8. **Build for production**
    ```bash
    npm run build
    npm start
