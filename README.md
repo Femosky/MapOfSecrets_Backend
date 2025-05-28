@@ -8,7 +8,9 @@ A RESTful API backend for the MapOfSecrets app—storing and serving anonymous, 
 
 ## 🚀 Live API
 
-**Base URL:** [Click here](https://api-mapofsecrets.femiojeyemi.com)
+1. **Base URL:** [Click here](https://api-mapofsecrets.femiojeyemi.com)
+2. **Frontend:** [map-of-secrets.vercel.app](https://map-of-secrets.vercel.app)
+3. **Frontend Repo:** [map-of-secrets.vercel.app](https://github.com/Femosky/MapOfSecrets)
 
 > _(Replace with your actual EC2 endpoint or custom domain.)_
 
